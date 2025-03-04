@@ -1,21 +1,37 @@
 <script setup>
+    import { inject } from "vue";
+
     const props = defineProps ({
-        items: Array,
+        id: Number,
+        title: String,
+        imageUrl: String,
+        prise: Number,
     })
 
-    // console.log(props.items)
+    const { addItem, deteleItem } = inject('actionsItem')
+    const checkAdd = ref(false)
+
+    const clickAddItem = () => {
+        addItem(props.id)
+        checkAdd.value = true
+    }
+
+
+    const clickDeleteItem = () => {
+        deteleItem(props.id)
+        checkAdd.value = false
+    }
+
 </script>
 
 <template>
-    <Card
-        v-for="item in items"
-        :key = item.id
-        :id = item.id
-        :title = item.title
-        :imageUrl = item.imageUrl
-        :prise = item.prise
-        :isAdd = false
-    />
+    <div class="product-card">
+      <img :src="imageUrl" alt="Товар 1" class="product-image" />
+      <h3 class="product-name">{{ title }}</h3>
+      <p class="product-price">{{ prise }} ₽</p>
+      <button class="action-button" v-if="!checkAdd" @click="clickAddItem">Добавить в корзину</button>
+      <button class="action-button" v-if="checkAdd" @click="clickDeleteItem">Уже в корзине</button>
+    </div>
 </template>
 
 <style lang="scss" scoped>

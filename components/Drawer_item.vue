@@ -1,22 +1,26 @@
 <script setup>
-    defineProps ({
+    import { inject } from "vue";
+
+    const props = defineProps ({
+        id: Number,
         title: String,
         imageUrl: String,
         prise: Number,
-        isAdd: Boolean,
-        clickAdd: Function,
-        clickDelete: Function
     })
+
+    const { addItem, deteleItem } = inject('actionsItem')
+
+    const clickDeleteItem = () => {
+        deteleItem(props.id)
+    }
 </script>
 
 <template>
-
-    <!-- Карточка товара -->
     <div class="product-card">
       <img :src="imageUrl" alt="Товар 1" class="product-image" />
         <h3 class="product-name">{{ title }}</h3>
         <p class="product-price">{{ prise }} ₽</p>
-      <button class="action-button" @click="clickDelete">Убрать из корзины</button>
+      <button class="action-button" @click="clickDeleteItem">Убрать из корзины</button>
     </div>
 </template>
 

@@ -1,84 +1,45 @@
-<script>
+<script setup>
     import Drawer_item from './Drawer_item.vue';
-    // import Navbar from './Navbar.vue';
-    import { ref } from 'vue';
 
-    // Создаем реактивную переменную
-    export const isSidebarOpen = ref(false);
+    import { useSidebarStore } from '@/stores/sidebar';
 
-    // Функция для переключения состояния панели
-    export const toggleSidebar = () => {
-    isSidebarOpen.value = !isSidebarOpen.value;
-    };
+    const sidebarStore = useSidebarStore();
 
-    // Функция для закрытия панели
-    export const closeSidebar = () => {
-    isSidebarOpen.value = false;
-    };
-
-    // defineProps ({
-    //     items: Array,
-    //     totalPrice: Number,
-    //     toggleSidebar: Function,
-    //     closeSidebar: Function
-    // })
+    const props = defineProps ({
+        items: Array
+    })
+    const check = () => {
+        console.log (props.items)
+    }
+    sidebarStore.totalPrise = props.items.reduce((sum, item) => sum + item.prise, 0);
 </script>
 
 <template>
-    <p>Состояние панели: {{ isSidebarOpen ? "Открыта" : "Закрыта" }}</p>
-    <button @click="toggleSidebar()">erwerw</button>
     <div class="sidebar-container">
-    <!-- Кнопка для открытия/закрытия панели -->
-    <!-- <button class="toggle-button" @click="toggleSidebar">
-      {{ isSidebarOpen ? "Скрыть корзину" : "Показать корзину" }}
-    </button> -->
-
     <!-- Боковая панель -->
-    <aside class="sidebar" :class="{ open: isSidebarOpen }">
-        <!-- <aside class="sidebar" v-if="!isSidebarOpen"> -->
-      <header class="sidebar-header">
-        <h2>Корзина</h2>
-        <!-- <button class="close-button" @click="closeSidebar">Закрыть</button> -->
-        <!-- <button class="close-button" @click="isCloseDrawer">Закрыть</button> -->
-        <button @click="toggleSidebar">Закрыть</button>
-      </header>
-
-      <!-- <Drawer_item 
-        v-for="item in items"
-        :key=item.id
-        :title= item.title
-        :imageUrl= item.imageUrl
-        :prise= item.prise
-        :clickAdd="clickAdd"
-        /> -->
-        <!-- :isAdd="false" -->
-      <Drawer_item />
-      <Drawer_item />
-      <Drawer_item />
-
-    <!-- <ul class="cart-items" v-if="cartItems.length > 0">
-        <li v-for="(item, index) in cartItems" :key="item.id" class="cart-item">
-          <div class="item-info">
-            <p class="item-name">{{ item.name }}</p>
-            <p class="item-price">{{ formatPrice(item.price * item.quantity) }}</p>
-          </div>
-          <div class="quantity-controls">
-            <button @click="decreaseQuantity(index)" :disabled="item.quantity <= 1">-</button>
-            <span class="quantity">{{ item.quantity }}</span>
-            <button @click="increaseQuantity(index)">+</button>
-          </div>
-          <button class="remove-button" @click="removeFromCart(index)">Удалить</button>
-        </li>
-      </ul>
+    <aside class="sidebar" :class="{ open: sidebarStore.isSidebarOpen }">
+        <header class="sidebar-header">
+            <h2>Корзина</h2>
+            <button @click="sidebarStore.toggleSidebar">Закрыть</button>
+        </header>
+    <ul class="cart-items" v-if="items.length > 0">
+        <Drawer_item
+            v-for="item in items"
+            :key = item.id
+            :id = item.id
+            :title = item.title
+            :imageUrl = item.imageUrl
+            :prise = item.prise
+        />
+        <footer class="sidebar-footer">
+            <p>Итого: {{ sidebarStore.totalPrise }} rub</p>
+            <button class="checkout-button" @click="check">Оформить заказ</button>
+        </footer>
+    </ul>
 
       <div class="empty-cart" v-else>
-        <p>Корзина пуста</p>
-      </div> -->
-
-      <footer class="sidebar-footer">
-        <p>Итого: {{ totalPrice }} 8000 rub</p>
-        <button class="checkout-button">Оформить заказ</button>
-      </footer>
+            <p>Корзина пуста</p>
+      </div>
     </aside>
   </div>
 </template>

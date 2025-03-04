@@ -1,41 +1,18 @@
-<script>
-import Drawer from "./Drawer.vue";
-
-// anotherFile.js
-import { isSidebarOpen, toggleSidebar, closeSidebar } from './Drawer';
-
-// Пример использования:
-console.log(isSidebarOpen.value); // Проверяем текущее состояние
-
-// Изменяем состояние напрямую
-isSidebarOpen.value = true;
-
-// Или используем функции для изменения состояния
-toggleSidebar(); // Переключает состояние
-closeSidebar();  // Закрывает панель
-
-// defineProps ({
-//   totalItem: Number
-// })
-
-  
+<script setup>
+  import { useSidebarStore } from '@/stores/sidebar';
+  const sidebarStore = useSidebarStore(); 
 </script>
 
 <template>
   <nav class="navbar">
     <div class="container">
-      <!-- Логотип -->
       <div class="logo">
         <NuxtLink to="/" class="logo-link">Test task</NuxtLink>
       </div>
-
-      <!-- Меню -->
       <ul class="nav-links">
-        <!-- <li><NuxtLink to="/">Главная</NuxtLink></li> -->
-        <!-- <li><NuxtLink to="/">О нас</NuxtLink></li> -->
         <li><NuxtLink to="/">Услуги</NuxtLink></li>
         <li><NuxtLink to="/">Контакты</NuxtLink></li>
-        <li><button @click="isSidebarOpen = !isSidebarOpen">Корзина {{ totalItem }}</button> </li>
+        <li><button @click="sidebarStore.toggleSidebar">Корзина {{ sidebarStore.totalItem != 0 ? sidebarStore.totalItem : '' }}</button> </li>
       </ul>
     </div>
   </nav>

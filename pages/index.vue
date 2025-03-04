@@ -1,65 +1,35 @@
-<template>
-  <Navbar 
-    :totalItem = items.length
-  />
-
-  <div class="product-grid">
-    <Product_card 
-      v-for="item in items"
-      :key = item.id
-      :title = item.title
-      :imageUrl = item.imageUrl
-      :prise = item.prise
-      :clickAdd="clickAdd"
-      :isAdd="false"
-    />
-    <!-- <Product_card 
-      title="2K Sport Performance",
-      imageUrl="https://2k-shop.ru/images/122710/yellow_black_black.jpg"
-      :prise="3000"
-      :clickAdd="clickAdd"
-      :isAdd="false"
-    />
-    <Product_card 
-      title="Nicenonice Classic 'Miyagi face'",
-      imageUrl="https://nicenonice.ru/wa-data/public/shop/products/46/29/12946/images/15433/15433.970.jpg"
-      :prise="3500"
-      :clickAdd="clickAdd"
-      :isAdd="false"
-    />
-    <Product_card 
-      title="Армия России х/б бежевый",
-      imageUrl="https://okrug.ru/image/cache/data/futbolki/futbolka_Armia_Rossii_bezh_00-750x1163.jpg"
-      :prise="5000"
-      :clickAdd="clickAdd"
-      :isAdd="false"
-    />
-    <Product_card 
-      title="Black + img",
-      imageUrl="https://merch.kaspersky.ru/assets/thumbnails/a5/a58cee5ee54e372a8f5cf3630721be12.jpg"
-      :prise="4000"
-      :clickAdd="clickAdd"
-      :isAdd="false"
-    /> -->
-  </div>
-
-  <Drawer
-    :isSidebarOpen = true
-  />
-</template>
-
-<script setup lang="ts">
+<script setup>
 import Product_card from '~/components/Product_card.vue';
+import { ref, provide } from 'vue';
+import { useSidebarStore } from '@/stores/sidebar';
 
-import { ref } from "vue";
+const sidebarStore = useSidebarStore();
 
-var addList = ref([])
+sidebarStore.totalItem = 0
 
-const clickAdd = () => {
-  addList.value.push()
+const card = ref([])
+
+const addItem = async(id) => {
+  const index = item.value.findIndex((el) => el.id === id);
+  if (index !== -1) {
+    sidebarStore.totalItem++
+    sidebarStore.totalPrise = sidebarStore.totalPrise + item.value[index].prise
+    card.value.push(item.value[index])
+  }
 }
 
-const items = ref([
+const deteleItem = async(id) => {
+  const index = card.value.findIndex((el) => el.id === id);
+  if (index !== -1) {
+    sidebarStore.totalItem--
+    card.value.splice(item.value[index],1)
+    sidebarStore.totalPrise = sidebarStore.totalPrise - item.value[index].prise
+  }
+}
+
+provide('actionsItem', {addItem , deteleItem});
+
+const item = ref([
   {
     id: 1,
     title: "2K Sport Performance",
@@ -87,6 +57,19 @@ const items = ref([
 ])
   
 </script>
+
+<template>
+  <Navbar />
+
+  <div class="product-grid">
+    <Product_card 
+      :items = item
+    />
+  </div>
+
+  <Drawer :items = card />
+
+</template>
 
 <style lang="scss" scoped>
 
