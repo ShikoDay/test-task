@@ -13,7 +13,7 @@ const addItem = async(id) => {
   const index = item.value.findIndex((el) => el.id === id);
   if (index !== -1) {
     sidebarStore.totalItem++
-    sidebarStore.totalPrise = sidebarStore.totalPrise + item.value[index].prise
+    sidebarStore.totalPrise += item.value[index].prise
     card.value.push(item.value[index])
   }
 }
@@ -22,8 +22,8 @@ const deteleItem = async(id) => {
   const index = card.value.findIndex((el) => el.id === id);
   if (index !== -1) {
     sidebarStore.totalItem--
-    card.value.splice(item.value[index],1)
-    sidebarStore.totalPrise = sidebarStore.totalPrise - item.value[index].prise
+    sidebarStore.totalPrise -= card.value[index].prise
+    card.value = card.value.filter((el) => el.id !== id);
   }
 }
 
@@ -53,7 +53,31 @@ const item = ref([
     title: "Black + img",
     imageUrl: "https://merch.kaspersky.ru/assets/thumbnails/a5/a58cee5ee54e372a8f5cf3630721be12.jpg",
     prise: 4000
-  }
+  },
+  {
+    id: 5,
+    title: "Футболка унисекс BASIC",
+    imageUrl: "https://modano.ru/wa-data/public/shop/products/08/15/1508/images/203949/203949.635x953@2x.jpg",
+    prise: 2000
+  },
+  {
+    id: 6,
+    title: "Футболка детская Trisar 155",
+    imageUrl: "https://4kraski.ru/assets/images/products/17523/118.36.1.jpg",
+    prise: 2700
+  },
+  {
+    id: 7,
+    title: "Черная футболка Петербург",
+    imageUrl: "https://static.insales-cdn.com/images/products/1/2624/874965568/%D1%81%D0%BF%D0%B1.jpg",
+    prise: 2000
+  },
+  {
+    id: 8,
+    title: "Набор из двух футболок Cotton 2",
+    imageUrl: "https://code7.ru/pub/media/catalog/product/cache/c687aa7517cf01e65c009f6943c2b1e9/p/9/p9104.jpg",
+    prise: 5000
+  },
 ])
   
 </script>

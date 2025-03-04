@@ -8,9 +8,7 @@
     const props = defineProps ({
         items: Array
     })
-    const check = () => {
-        console.log (props.items)
-    }
+
     sidebarStore.totalPrise = props.items.reduce((sum, item) => sum + item.prise, 0);
 </script>
 
@@ -33,7 +31,7 @@
         />
         <footer class="sidebar-footer">
             <p>Итого: {{ sidebarStore.totalPrise }} rub</p>
-            <button class="checkout-button" @click="check">Оформить заказ</button>
+            <button class="checkout-button">Оформить заказ</button>
         </footer>
     </ul>
 

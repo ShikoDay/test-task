@@ -7,12 +7,6 @@
         imageUrl: String,
         prise: Number,
     })
-
-    const { addItem, deteleItem } = inject('actionsItem')
-
-    const clickDeleteItem = () => {
-        deteleItem(props.id)
-    }
 </script>
 
 <template>
@@ -20,7 +14,7 @@
       <img :src="imageUrl" alt="Товар 1" class="product-image" />
         <h3 class="product-name">{{ title }}</h3>
         <p class="product-price">{{ prise }} ₽</p>
-      <button class="action-button" @click="clickDeleteItem">Убрать из корзины</button>
+      <!-- <button class="action-button">Убрать из корзины</button> -->
     </div>
 </template>
 

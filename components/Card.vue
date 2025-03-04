@@ -1,5 +1,5 @@
 <script setup>
-    import { inject } from "vue";
+    import { inject, provide } from "vue";
 
     const props = defineProps ({
         id: Number,
@@ -16,12 +16,12 @@
         checkAdd.value = true
     }
 
-
-    const clickDeleteItem = () => {
+    const clickDeleteItem = (id) => {
         deteleItem(props.id)
         checkAdd.value = false
     }
 
+    provide('clickDeleteItem', clickDeleteItem);
 </script>
 
 <template>
@@ -30,7 +30,7 @@
       <h3 class="product-name">{{ title }}</h3>
       <p class="product-price">{{ prise }} ₽</p>
       <button class="action-button" v-if="!checkAdd" @click="clickAddItem">Добавить в корзину</button>
-      <button class="action-button" v-if="checkAdd" @click="clickDeleteItem">Уже в корзине</button>
+      <button class="action-button-delete" v-if="checkAdd" @click="clickDeleteItem(id)">Убрать из корзины</button>
     </div>
 </template>
 
@@ -83,6 +83,24 @@
       &:hover {
         background-color: #38a169;
       }
+    }
+
+    .action-button-delete {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #b82b12;
+        border: none;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 0 0 4px 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #ec3c10;
+        }
     }
   }
 
